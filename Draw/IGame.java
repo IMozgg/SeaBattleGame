@@ -15,7 +15,7 @@ public interface IGame {
      * - (2) повторная стрельба
      * - (-2) ошибка
      */
-    public int shootPlayer(Point p, Player player);
+    int shootPlayer(Point p, Player player);
 
     /** Алгоритм простого обстрела
      * В основе лежит стрельба по случайным точкам поля исключая стрельбы в одну и туже клетку
@@ -23,14 +23,15 @@ public interface IGame {
      *
      * @param player игрок, по которому ведется стрельба
      */
-    public void simpleShoot(Player player);
+    void simpleShoot(Player player);
 
     /** Расстановка кораблей случайным образом
      *
      * @param player игрок, у которого расставляем корабли
+     * @param param параметр, для корректировки алгоритмов внутри метода
      * @throws Exception исключение, если контроллер застрял на создании кораблей
      */
-    public void setRandomShip(Player player) throws Exception;
+    void setRandomShip(Player player, int param) throws Exception;
 
     /** расстановка методом Перельмана
      * Алгоритм работы.
@@ -43,11 +44,11 @@ public interface IGame {
      * в) после размещения делать маску поля занятого места, если свободных клеток не менее 50 то размещаем рандомом оставшиеся катера*
      * г) размещаем катера также как и все остальные корабли**
      */
-    public void setShipPerelman(Player player) throws Exception;
+    void setShipPerelman(Player player) throws Exception;
 
     /** ИИ стрельбы по кораблям
      *
      * @param player игрок, по которому проводится обстрел
      */
-    public void iiShoot(Player player);
+    void iiShoot(Player player);
 }
