@@ -88,7 +88,7 @@ public class Game implements IGame {
                 //  Для этого будем считать кол-во попыток на создание одного корабля, если превысит N то значит
                 //  создается исключение, которое обрабатывается переинициализацией игрока
                 try {
-                    setRandomShip(players[0]);
+                    setRandomShip(players[0], 0);
                     break;
                 } catch (Exception e) {
                     //System.out.println(e);
@@ -246,11 +246,12 @@ public class Game implements IGame {
         shootPlayer(tempPoint, player);
     }
 
-    public void setRandomShip(Player player) throws Exception {
+    public void setRandomShip(Player player, int param) throws Exception {
         //  4 - однопалубных        4 - 1
         //  3 - двухпалубных        3 - 2
         //  2 - трехпалубных        2 - 3
         //  1 - четырехпалубный     1 - 4
+        //  Использую параметр 1, чтобы отключать цикл
         int randomAttitude;
         int randomX;
         int randomY;
@@ -258,48 +259,6 @@ public class Game implements IGame {
         for (int i = 0; i < 4; i++) {
             for (int j = i; j < 4; j++) {
                 newPoint = new Point();
-                do {
-                    if (i >= 2) {
-                        countAttemptShips++;
-                        if (countAttemptShips >= 100) {
-                            throw new Exception("Нерешимая ситуация");
-                        }
-                    }
-                    randomAttitude = (int) (Math.random() * 2);
-
-                    // Рандомизация координат выполняется на основе направления корабля и его размера (чтобы не выйти за границы игрового поля)
-                    if (randomAttitude == 0) {
-                        randomX = (int) (Math.random() * 10);
-                        randomY = (int) (Math.random() * (10 - i));
-                    } else {
-                        randomX = (int) (Math.random() * (10 - i));
-                        randomY = (int) (Math.random() * 10);
-                    }
-                    newPoint.setX(randomX);
-                    newPoint.setY(randomY);
-
-                } while (checkShipBeside(newPoint, i + 1, randomAttitude, player));
-                player.createShip(newPoint, i + 1, randomAttitude);
-            }
-        }
-        //  После создания всех кораблей, нужно очистить маску
-        player.clearMaskShip();
-    }
-
-    public void setShipPerelman(Player player) throws Exception {
-        //  4 - однопалубных        4 - 1
-        //  3 - двухпалубных        3 - 2
-        //  2 - трехпалубных        2 - 3
-        //  1 - четырехпалубных     1 - 4
-        int randomAttitude;
-        int randomX;
-        int randomY;
-        Point newPoint;
-
-        //  Корабли от 2-х палубных до 4-х палубных
-        newPoint = new Point();
-        for (int i = 0; i < 4; i++) {
-            for (int j = i; j < 4; j++) {
                 do {
                     do {
                         if (i >= 2) {
@@ -309,6 +268,7 @@ public class Game implements IGame {
                             }
                         }
                         randomAttitude = (int) (Math.random() * 2);
+
                         // Рандомизация координат выполняется на основе направления корабля и его размера (чтобы не выйти за границы игрового поля)
                         if (randomAttitude == 0) {
                             randomX = (int) (Math.random() * 10);
@@ -319,15 +279,20 @@ public class Game implements IGame {
                         }
                         newPoint.setX(randomX);
                         newPoint.setY(randomY);
-                    }
-                    while (checkFreeSpaceAboutShip(newPoint, i + 1, randomAttitude, player) > (i + 4));
+                        if (param == 1) {
+                            break;
+                        }
+                    } while (checkFreeSpaceAboutShip(newPoint, i + 1, randomAttitude, player) > (i + 4));
                 } while (checkShipBeside(newPoint, i + 1, randomAttitude, player));
                 player.createShip(newPoint, i + 1, randomAttitude);
             }
         }
-
         //  После создания всех кораблей, нужно очистить маску
         player.clearMaskShip();
+    }
+
+    public void setShipPerelman(Player player) throws Exception {
+        setRandomShip(player, 0);
     }
 
     //  Проверка свободного места вокруг корабля
