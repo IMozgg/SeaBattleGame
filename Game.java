@@ -88,7 +88,7 @@ public class Game implements IGame {
                 //  Для этого будем считать кол-во попыток на создание одного корабля, если превысит N то значит
                 //  создается исключение, которое обрабатывается переинициализацией игрока
                 try {
-                    setRandomShip(players[0], 0);
+                    setRandomShip(players[0], 1);
                     break;
                 } catch (Exception e) {
                     //System.out.println(e);
