@@ -1,8 +1,8 @@
-package SeaBattle.Draw;
+package SeaBattle.view;
 
-import SeaBattle.gamesInventory.Player;
-import SeaBattle.gamesInventory.Point;
-import SeaBattle.gamesInventory.Sea;
+import SeaBattle.model.Player;
+import SeaBattle.model.Point;
+import SeaBattle.model.Sea;
 
 public class DrawingToDisplay implements IDrawing {
     public DrawingToDisplay() {

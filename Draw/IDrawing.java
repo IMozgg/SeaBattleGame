@@ -1,6 +1,6 @@
 package SeaBattle.Draw;
 
-import SeaBattle.gamesInventory.Player;
+import SeaBattle.model.Player;
 
 public interface IDrawing {
     public void draw(Player player);

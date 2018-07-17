@@ -1,12 +1,7 @@
-package SeaBattle;
+package SeaBattle.model;
 
-import SeaBattle.Draw.IDrawing;
-import SeaBattle.Draw.IGame;
-import SeaBattle.InputData.IInputData;
-import SeaBattle.gamesInventory.Player;
-import SeaBattle.gamesInventory.Point;
-
-import java.rmi.server.ExportException;
+import SeaBattle.view.IDrawing;
+import SeaBattle.view.IGame;
 
 public class Game implements IGame {
     //-----------------------Параметры для ИИ------------------
@@ -24,27 +19,37 @@ public class Game implements IGame {
     private byte attitudeShoot;                 //  Куда стрелять?
     //-----------------------------------------------------------
 
-    private static Game instance;
-    private Player[] players;
-    private IInputData inputData;
+    private static volatile Game instance;
+    public Player[] players;
     private boolean settingsAutoSetShip;        // Расстановка кораблей: 1 - автоматически, 0 - вручную
     private Player activePlayer;                //  Игрок, чей ход
     private IDrawing drawing;
     private boolean isShowGraph;                //  Показывать графику?
     private int countAttemptShips;              //  Счетчик попыток создать корабль (для выхода из тупика)
 
-    public static Game getInstance(IDrawing drawing, IInputData inputData) {
-        if (instance == null) {
-            instance = new Game(drawing, inputData);
-        }
-        return instance;
-    }
-
-    private Game(IDrawing drawing, IInputData inputData) {
+    private Game(IDrawing drawing) {
         this.drawing = drawing;
-        this.inputData = inputData;
         init();
         initPlayers();
+    }
+
+    private Game() {
+        init();
+        initPlayers();
+    }
+
+    //  Ленивый синглтон. Потокобезопасный и быстрый
+    public static Game getInstance(IDrawing drawing) {
+        Game localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Game.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Game(drawing);
+                }
+            }
+        }
+        return localInstance;
     }
 
     private void init() {
@@ -73,9 +78,9 @@ public class Game implements IGame {
     private void initPlayers() {
         players = new Player[2];
         System.out.print("Введите ник 1 игрока: ");
-        players[0] = new Player(inputData.getInputString());
+        players[0] = new Player();
         System.out.print("Введите ник 2 игрока: ");
-        players[1] = new Player(inputData.getInputString());
+        players[1] = new Player();
 
         //  Создадим игровые поля игроков
         players[0].createSea();

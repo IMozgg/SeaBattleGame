@@ -1,7 +1,7 @@
-package SeaBattle.Draw;
+package SeaBattle.view;
 
-import SeaBattle.gamesInventory.Player;
-import SeaBattle.gamesInventory.Point;
+import SeaBattle.model.Player;
+import SeaBattle.model.Point;
 
 public interface IGame {
     /** Выстрел по игроку

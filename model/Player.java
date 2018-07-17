@@ -1,4 +1,4 @@
-package SeaBattle.gamesInventory;
+package SeaBattle.model;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -38,12 +38,8 @@ public class Player {
         return sea;
     }
 
-    public Player(String name) {
-        this.name = name;
-        ships = new ArrayList<>();
-    }
-
     public Player() {
+        ships = new ArrayList<>();
     }
 
     @Override
