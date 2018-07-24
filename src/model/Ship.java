@@ -1,4 +1,4 @@
-package SeaBattle.model;
+package model;
 
 public class Ship {
     private Point[] shipOnCells;   // Составной корабль. Состоит из нескольких однопалубных

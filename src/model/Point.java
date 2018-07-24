@@ -1,4 +1,4 @@
-package SeaBattle.model;
+package model;
 
 public class Point {
     private int x;

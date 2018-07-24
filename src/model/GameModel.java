@@ -1,7 +1,6 @@
-package SeaBattle.model;
+package model;
 
-import SeaBattle.view.IDrawing;
-import SeaBattle.view.IGame;
+import view.IGame;
 
 public class GameModel implements IGame {
     //-----------------------Параметры для ИИ------------------
@@ -23,34 +22,23 @@ public class GameModel implements IGame {
     public Player[] players;
     private boolean settingsAutoSetShip;        // Расстановка кораблей: 1 - автоматически, 0 - вручную
     private Player activePlayer;                //  Игрок, чей ход
-    private IDrawing drawing;
     private boolean isShowGraph;                //  Показывать графику?
     private int countAttemptShips;              //  Счетчик попыток создать корабль (для выхода из тупика)
     private boolean isGameOver;                 //  Состояние игры
-
-    private GameModel(IDrawing drawing) {
-        this.drawing = drawing;
-        init();
-        initPlayers();
-    }
 
     private GameModel() {
         init();
         initPlayers();
     }
 
-    public IDrawing getDrawing() {
-        return drawing;
-    }
-
     //  Ленивый синглтон. Потокобезопасный и быстрый
-    public static GameModel getInstance(IDrawing drawing) {
+    public static GameModel getInstance() {
         GameModel localInstance = instance;
         if (localInstance == null) {
             synchronized (GameModel.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new GameModel(drawing);
+                    instance = localInstance = new GameModel();
                 }
             }
         }
@@ -198,9 +186,7 @@ public class GameModel implements IGame {
 
                 if (isShowGraph) {
                     System.out.println("Поле игрока: " + players[0]);
-                    drawing.draw(players[0]);
                     System.out.println("Поле игрока: " + players[1]);
-                    drawing.draw(players[1]);
                 }
                 if (players[0].getSea().getCountShip() > 0 & players[1].getSea().getCountShip() > 0) {
                     changePlayer();
@@ -214,13 +200,11 @@ public class GameModel implements IGame {
             System.out.println("Игрок " + players[0]);
             System.out.println("Кол-во выстрелов игрока  - " + players[0].getCountShoot());
             System.out.println("Поле игрока: " + players[0]);
-            drawing.draw(players[0]);
 
             System.out.println("Игрок " + players[1]);
             System.out.println("Кол-во выстрелов игрока - " + players[1].getCountShoot());
             System.out.println("Поле игрока: " + players[1]);
 
-            drawing.draw(players[1]);
         } else {
             System.out.println("Игрок " + activePlayer);
             System.out.println("Кол-во выстрелов игрока - " + activePlayer.getCountShoot());

@@ -1,7 +1,7 @@
-package SeaBattle.view;
+package view;
 
-import SeaBattle.model.Point;
-import SeaBattle.presenter.MainPresenter;
+import model.Point;
+import presenter.MainPresenter;
 
 public interface IGameView {
     void updateFromViewToModel();

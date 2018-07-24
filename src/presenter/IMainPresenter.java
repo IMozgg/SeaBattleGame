@@ -1,8 +1,7 @@
-package SeaBattle.presenter;
+package presenter;
 
-import SeaBattle.model.GameModel;
-import SeaBattle.model.Point;
-import SeaBattle.view.GameView;
+import model.GameModel;
+import view.GameView;
 
 import java.awt.event.ActionEvent;
 

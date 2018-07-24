@@ -1,8 +1,8 @@
-package SeaBattle.presenter;
+package presenter;
 
-import SeaBattle.model.GameModel;
-import SeaBattle.model.Point;
-import SeaBattle.view.GameView;
+import model.GameModel;
+import model.Point;
+import view.GameView;
 import java.awt.event.ActionEvent;
 
 public class MainPresenter implements IMainPresenter {
@@ -96,7 +96,7 @@ public class MainPresenter implements IMainPresenter {
         if (!isGameOver()) {
             //  Если игрок ходит по своему полю то делаем выстрел
             if (gameView.checkAccessToButton(event, x, y)) {
-                shootToPlayer(new SeaBattle.model.Point(x, y));
+                shootToPlayer(new model.Point(x, y));
             }
         } else {
             gameView.showMessageDialogue("Игра закончена\nПобедил игрок " + getNamePlayer(getActivePlayer()));
